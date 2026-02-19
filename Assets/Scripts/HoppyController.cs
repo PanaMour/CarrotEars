@@ -40,6 +40,11 @@ public class HoppyController : MonoBehaviour
         velocity.y -= gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
+        if (controller.isGrounded && Input.GetButtonDown("Jump"))
+        {
+            velocity.y = Mathf.Sqrt(hopHeight * 5.0f * gravity);
+            if (audioSource != null && hop != null) audioSource.PlayOneShot(hop);
+        }
         if (move.magnitude > 0.1f)
         {
             timer += Time.deltaTime * hopSpeed;

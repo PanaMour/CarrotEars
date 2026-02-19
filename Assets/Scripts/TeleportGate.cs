@@ -8,11 +8,14 @@ public class TeleportGate : MonoBehaviour
     public string gateMessage = "";
     public float displayDuration = 3.0f;
 
+    public bool resetRoom1OnTeleport = false;
+    public GameObject Gate1;
+    public GameObject lockManager;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            // 1. Get the CharacterController component
             CharacterController cc = other.GetComponent<CharacterController>();
 
             if (cc != null)
@@ -26,6 +29,11 @@ public class TeleportGate : MonoBehaviour
                 other.transform.position = destination.position;
             }
 
+            if (resetRoom1OnTeleport)
+            {
+                ResetRoom1();
+            }
+
             if (textDisplay != null)
             {
                 textDisplay.text = gateMessage;
@@ -33,6 +41,16 @@ public class TeleportGate : MonoBehaviour
                 CancelInvoke("HideMessage");
                 Invoke("HideMessage", displayDuration);
             }
+        }
+    }
+
+    void ResetRoom1()
+    {
+        if (Gate1 != null) Gate1.SetActive(false);
+
+        if (lockManager != null)
+        {
+            lockManager.SendMessage("Start", SendMessageOptions.DontRequireReceiver);
         }
     }
 
