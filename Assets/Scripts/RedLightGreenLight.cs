@@ -14,6 +14,8 @@ public class RedLightGreenLight : MonoBehaviour
     {
         if (!playerInside)
         {
+            isRedLight = false;
+            roomLight.color = Color.green;
             return;
         }
 
