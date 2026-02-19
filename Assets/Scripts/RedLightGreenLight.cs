@@ -12,12 +12,12 @@ public class RedLightGreenLight : MonoBehaviour
 
     void Update()
     {
-        if (!playerInside)
+        if (playerInside && Vector3.Distance(transform.position, playerController.transform.position) > 30f)
         {
-            isRedLight = false;
-            roomLight.color = Color.green;
-            return;
+            playerInside = false;
         }
+
+        if (!playerInside) return;
 
         timer += Time.deltaTime;
 
@@ -30,7 +30,7 @@ public class RedLightGreenLight : MonoBehaviour
                 roomLight.color = isRedLight ? Color.red : Color.green;
         }
 
-        if (isRedLight && playerController.velocity.magnitude > vel)
+        if (isRedLight && playerInside && playerController.velocity.magnitude > vel)
         {
             TeleportPlayer();
         }
